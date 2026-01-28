@@ -6,8 +6,19 @@
 
 		<div class="game">
 			<div class="game__wrap">
-				<div class="game__logo">
-					<img src="@img/logo.png" alt="Logo">
+				<!-- Header with jackpots and logo -->
+				<div class="game__header">
+					<div class="jackpot jackpot--mega">
+						<span class="jackpot__label">MEGA</span>
+						<span class="jackpot__value">1000</span>
+					</div>
+					<div class="game__logo">
+						<img src="@img/logo.png" alt="Logo">
+					</div>
+					<div class="jackpot jackpot--mini">
+						<span class="jackpot__label">MINI</span>
+						<span class="jackpot__value">100</span>
+					</div>
 				</div>
 
 				<div class="game__field">
@@ -40,66 +51,58 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="game__bottom">
-						<div class="lines">
-							<div class="lines__wrap">
-								<div class="lines__title">Lines</div>
-								<ul class="lines__list">
-									<li class="lines__item"><button type="button">100</button></li>
-									<li class="lines__item"><button type="button">80</button></li>
-									<li class="lines__item active"><button type="button">60</button></li>
-									<li class="lines__item"><button type="button">40</button></li>
-									<li class="lines__item"><button type="button">20</button></li>
-								</ul>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 
 			<div class="menu">
 				<div class="menu__container">
 					<div class="menu__left">
-						<div class="menu__wrap">
-							<div class="menu__items">
-								<a href="#" class="menu__sound">
-									<img src="@img/button/sound.png" alt="Sound">
-								</a>
-							</div>
-							<div class="menu__info">
-								<span class="balance">Balance</span>
-								<span class="number">1000</span>
-								<span class="value">FUN</span>
-							</div>
-						</div>
-						<div class="menu__bet">
-							<div class="menu__credit">
-								<p>Total bet</p>
-								<div class="menu__credit-wrap">
-									<span class="number">1.20</span>
-									<span class="value">FUN</span>
-								</div>
-							</div>
-							<div class="menu__arrows">
-								<a class="menu__button-arrow" href="#">
-									<img src="@img/button/button-arrow.png" alt="Button top">
-								</a>
-								<a class="menu__button-arrow bottom" href="#">
-									<img src="@img/button/button-arrow.png" alt="Button bottom">
-								</a>
-							</div>
+						<button type="button" class="menu__btn menu__btn--settings">
+							<span class="menu__btn-icon">&#9776;</span>
+						</button>
+						<div class="menu__balance">
+							<span class="menu__balance-label">FREEPLAY</span>
+							<span class="menu__balance-value menu__info"><span class="number">10000</span></span>
 						</div>
 					</div>
 
-					<div class="menu__right">
-						<a href="#" class="menu__button-auto">
-							<img src="@img/button/auto-spin.png" alt="Auto Spin">
+					<div class="menu__center">
+						<a href="#" class="menu__btn menu__btn--sound menu__sound">
+							<span class="menu__btn-icon"></span>
 						</a>
-						<a href="#" class="menu__button-spin">
-							<img src="@img/button/arrows.png" alt="Spin">
+						<button type="button" class="menu__btn menu__btn--info">
+							<span class="menu__btn-icon">i</span>
+						</button>
+						<a href="#" class="menu__btn menu__btn--arrow menu__button-arrow">
+							<span class="menu__btn-icon">&#9664;</span>
+						</a>
+						<div class="menu__bets">
+							<button type="button" class="menu__bet-btn active">1</button>
+							<button type="button" class="menu__bet-btn">5</button>
+							<button type="button" class="menu__bet-btn">10</button>
+							<button type="button" class="menu__bet-btn">20</button>
+							<button type="button" class="menu__bet-btn">30</button>
+						</div>
+						<a href="#" class="menu__btn menu__btn--arrow menu__button-arrow bottom">
+							<span class="menu__btn-icon">&#9654;</span>
+						</a>
+						<a href="#" class="menu__btn menu__btn--auto menu__button-auto">
+							<span class="menu__btn-icon"></span>
 						</a>
 					</div>
+
+					<div class="menu__right">
+						<div class="menu__bet-display menu__credit">
+							<span class="menu__bet-label">BET</span>
+							<span class="menu__bet-value"><span class="number">1</span></span>
+						</div>
+						<a href="#" class="menu__btn menu__btn--spin menu__button-spin">
+							<span class="menu__btn-text">START</span>
+						</a>
+					</div>
+				</div>
+				<div class="menu__info-bar">
+					<span>MIN. BET 1 - MAX. BET 1000</span>
 				</div>
 			</div>
 

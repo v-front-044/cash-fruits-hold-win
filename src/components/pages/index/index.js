@@ -38,7 +38,7 @@ class SlotMachine {
 				minWidth: 767.98,
 				cols: 5,
 				rows: 3,
-				iconHeight: 150
+				iconHeight: 180
 			},
 			mobile: {
 				minWidth: 0,

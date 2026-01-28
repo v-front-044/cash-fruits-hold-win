@@ -1,168 +1,150 @@
-$red: #a01602;
-$gold: #fdc909;
-$bg-gold: #FFA500;
-$purple: #d358f9;
-
-%border {
-	border: 4px solid $gold;
-	box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
-	padding: 2px;
-	border-radius: 8px;
-	width: 100%;
-
-	@media (max-width:toEm($mobile)){
-		max-width: 100%; 
-	}
-}
-
-%border-wrap {
-	border: 4px solid $gold;
-	box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
-	border-radius: 6px;
-}
-
-%title-item {
-	color: $gold;
-	font-size: 24px;
-	font-weight: 900;
-	border-radius: 8px;
-	background-color: $red;
-
-	@media (max-width:toEm($mobileSmall)) {
-		font-size: 16px;
-	}
-}
-
-%span-effect {
-	/* 1) Заливка (теплий "золотий" градієнт) */
-	background: linear-gradient(180deg, #FFF2B3 0%, #FFC24A 45%, #FF8A00 100%);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: $gold;
-
-	/* 2) Обводка навколо кожної букви */
-	-webkit-text-stroke: 1px #d53404;
-}
-
+$red: #8b1a1a;
+$dark-red: #3d0a0a;
+$gold: #ffb921;
+$gold-light: #f5d77a;
+$gold-border: #c9a227;
+$orange-border: #fe851c;
+$cyan: #00d4ff;
+$bg-dark: #1a0505;
+$menu-bg: #2d1515;
+$frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 
 .page {
 	background: url('../../../assets/img/bg.jpg') center/cover no-repeat;
-	height: 100vh;
+	background-color: $dark-red;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 
 	&__container {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		height: 100%;
+		flex: 1;
+		padding: 20px;
+		padding-bottom: 140px;
 
 		@media (max-width:toEm($mobile)){
-			padding-top: 40px;
+			padding-top: 20px;
 			padding-bottom: 160px;
-			flex-direction: column;
 		}
 	}
 }
 
 .game {
 	width: 100%;
-	height: max-content;
+	// max-width: 1000px;
 	position: relative;
 	z-index: 5;
+	padding: 0 100px;
 
 	&__wrap {
 		width: 100%;
-		height: 100%;
+	}
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		position: relative;
+		z-index: 10;
+		padding: 0 10px;
 	}
 
 	&__logo {
+		flex: 1;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		position: absolute;
-		top: -10%;
-		left: 50%;
-		transform: translateX(-50%);
-		max-width: 600px;
+		max-width: 460px;
+		min-width: 260px;
 		width: 100%;
+		margin: 0 auto;
+		position: relative;
 		z-index: 100;
 
 		img {
 			width: 100%;
-			height: 100%;
+			height: auto;
 		}
 
-		@media (max-width:toEm($mobileSmall)){
-			top: -6%;
+		@media (max-width:toEm($mobile)){
+			max-width: 200px;
 		}
 	}
 
 	&__field {
+		margin-top: 4px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: space-between;
-		gap: 15px;
-
-		@media (max-width:toEm($mobile)){
-			flex-direction: column-reverse; 
-		}
 	}
 }
 
+// Jackpot blocks
+.jackpot {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 4px 20px;
+	max-width: 280px;
+	width: 100%;
 
-.lines {
-	@extend %border;
-	position: relative;
-
-	&__wrap {
-		@extend %border-wrap;
+	@media (max-width:toEm($mobile)){
+		min-width: 80px;
+		padding: 5px 10px;
 	}
 
-	&__title {
-		position: absolute;
-		top: -15%;
-		left: 50%;
-		transform: translateX(-50%);
-		color: $gold;
-		font-size: 24px;
-		font-weight: 900;
-		line-height: 120%;
+	&__label {
+		font-size: 18px;
+		font-weight: 700;
 		text-transform: uppercase;
+		letter-spacing: 2px;
+		margin-bottom: 5px;
 
 		@media (max-width:toEm($mobile)){
-			display: none; 
+			font-size: 12px;
 		}
 	}
 
-	&__list {
-		display: flex;
-		gap: 5px;
-		text-align: center;
-		background-color: $bg-gold;
-		padding: 5px;
+	&__value {
+		font-size: 36px;
+		font-weight: 900;
+		line-height: 1;
 
 		@media (max-width:toEm($mobile)){
-			flex-direction: row;
+			font-size: 24px;
 		}
 	}
 
-	&__item {
-		padding: 15px 20px;
-		@extend %title-item;
-		transition: background-color .3s ease-in-out;
-		cursor: pointer;
+	&--mega {
+		border: 3px solid #ffa135;
+		border-radius: 6px;
+		box-shadow: 0 0 15px rgba(255, 107, 53, 0.8), inset 0 0 20px rgba(255, 215, 0, 0.6);
 
-		button {
-			letter-spacing: 1px;
-			font-weight: inherit;
+		.jackpot__label {
+			color: #ff6b35;
+			text-shadow: 0 0 10px rgba(255, 107, 53, 0.8);
 		}
-
-		&.active {
-			background-color: $purple;
+		.jackpot__value {
+			color: $gold-light;
+			text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
 		}
+	}
 
-		@media (max-width:toEm($mobileSmall)){
-			padding: 10px 15px; 
+	&--mini {
+		border: 3px solid $cyan;
+		border-radius: 6px;
+		box-shadow: 0 0 15px rgba(0, 212, 255, 0.5), inset 0 0 20px rgba(0, 212, 255, 0.1);
+
+		.jackpot__label {
+			color: $cyan;
+			text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+		}
+		.jackpot__value {
+			color: #fff;
+			text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 		}
 	}
 }
@@ -175,27 +157,29 @@ $purple: #d358f9;
 	overflow: hidden;
 	position: relative;
 
-	max-width: 1000px;
+	// max-width: 1000px;
 	width: 100%;
-	background-color: $red;
-	border: 6px solid $gold;
+	background: $frameGradient;
+	border: 2px solid $gold;
 	box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
-	padding: 10px;
+	padding: 18px;
+	border-radius: 16px;
 
 	&__spinner {
 		width: 100%;
 		height: 100%;
 		display: grid;
 		grid-template-columns: repeat(5, 1fr);
-		background-color: $red;
-		
+		background-color: $frameGradient;
+
 		position: relative;
 		z-index: 10;
-		border: 6px solid $gold;
+		border: 4px solid $orange-border;
 		box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
+		border-radius: 12px;
 
 		@media (max-width:toEm($mobile)){
-			grid-template-columns: repeat(3, 1fr); 
+			grid-template-columns: repeat(3, 1fr);
 		}
 	}
 
@@ -204,10 +188,10 @@ $purple: #d358f9;
 		overflow: hidden;
 		z-index: 10;
 		background-color: #000;
-		border: 2px solid $gold;
+		border: 4px solid $orange-border;
 		box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
-		// Висота для 3 іконок на desktop
-		height: calc(150px * 3);
+		border-radius: 12px;
+		height: calc(180px * 3);
 
 		&:not(:first-child),
 		&:not(:last-child) {
@@ -215,7 +199,6 @@ $purple: #d358f9;
 		}
 
 		@media (max-width:toEm($mobile)){
-			// Висота для 3 іконок на mobile
 			height: calc(140px * 3);
 
 			&:nth-child(4),
@@ -225,7 +208,6 @@ $purple: #d358f9;
 		}
 	}
 
-	// Стрічка з іконками для анімації обертання
 	&__strip {
 		display: flex;
 		flex-direction: column;
@@ -243,7 +225,7 @@ $purple: #d358f9;
 		align-items: center;
 		justify-content: center;
 		width: 100%;
-		height: 150px;
+		height: 180px;
 		flex-shrink: 0;
 
 		@media (max-width:toEm($mobile)){
@@ -425,204 +407,213 @@ $purple: #d358f9;
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	height: 90px;
 	z-index: 10;
-	background-color: rgba(0, 0, 0, 0.65);
+	background: linear-gradient(180deg, #4a1a1a 0%, #2d0f0f 100%);
 	color: #fff;
-	padding: 14px 0;
 	font-weight: 500;
-	font-size: 20px;
-
-	@media (max-width:toEm($pc)){
-		height: auto;
-	}
-
-	@media (max-width:toEm($mobile)){
-		padding: 0;
-	}
-
-	img {
-		width: 100%;
-		height: 100%;
-	}
+	font-size: 16px;
+	border-top: 2px solid rgba(201, 162, 39, 0.3);
 
 	&__container {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		height: 100%;
+		padding: 10px 15px;
+		gap: 10px;
+
+		@media (max-width:toEm($mobile)){
+			flex-wrap: wrap;
+			padding: 8px 10px;
+		}
+	}
+
+	&__info-bar {
+		background: linear-gradient(180deg, #3d1515 0%, #2a0e0e 100%);
+		text-align: center;
+		padding: 8px;
+		font-size: 14px;
+		color: rgba(255, 255, 255, 0.7);
+		letter-spacing: 1px;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+		@media (max-width:toEm($mobile)){
+			font-size: 11px;
+			padding: 5px;
+		}
 	}
 
 	&__left {
 		display: flex;
 		align-items: center;
-		gap: 40px;
-
-		@media (max-width:toEm($mobile)){
-			flex-direction: column;
-			gap: 10px; 
-			align-items: flex-end;
-		}
+		gap: 10px;
 	}
 
-	&__wrap {
+	&__center {
 		display: flex;
-		align-items: flex-start;
-		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		flex: 1;
 		justify-content: center;
 
 		@media (max-width:toEm($mobile)){
-			flex-direction: row;
-			align-items: center;
-			gap: 5px;
-			position: absolute;
-			top: -50%;
-			left: 0;
-		}
-	}
-
-	&__items {
-		display: flex;
-		align-items: center;
-		justify-content: flex-start;
-	}
-
-	&__settings,
-	&__sound {
-		width: 40px;
-		height: 40px;
-		transition: all 0.3s ease;
-		position: relative;
-
-		@media (max-width:toEm($mobile)){
-			width: 60px;
-			height: 60px;
-		}
-
-		&:hover {
-			transform: scale(1.1);
-		}
-
-		&:active {
-			transform: scale(0.95);
-		}
-	}
-
-	&__sound {
-		&.sound-off {
-			opacity: 0.5;
-			filter: grayscale(1);
-
-			// Додаємо перекреслення (хрестик)
-			&::before,
-			&::after {
-				content: '';
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				width: 100%;
-				height: 2px;
-				background: #ff0000;
-				transform-origin: center;
-				z-index: 2;
-				box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
-			}
-
-			&::before {
-				transform: translate(-50%, -50%) rotate(45deg);
-			}
-
-			&::after {
-				transform: translate(-50%, -50%) rotate(-45deg);
-			}
-
-			&:hover {
-				opacity: 0.7;
-			}
-		}
-	}
-
-	&__info {
-		display: flex;
-		gap: 5px;
-
-		span {
-			display: inline;
-		}
-	}
-
-	&__bet {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 5px;
-	}
-
-	&__credit {
-		padding: 15px 20px;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
-		display: flex;
-		flex-direction: column;
-
-		p {
-			white-space: nowrap;
-			display: inline-block;
-		}
-
-		&-wrap {
-			margin-top: 10px;
-			display: flex;
-			gap: 4px;
-		}
-	}
-
-	&__arrows {
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-	}
-
-	&__button-arrow {
-		width: 40px;
-		height: 40px;
-		padding: 2px;
-		background-color: rgba(0, 0, 0, 0.5);
-
-		&.bottom {
-			transform: rotate(180deg);
-		}
-
-		img {
+			order: 3;
 			width: 100%;
-			height: 100%;
+			justify-content: center;
+			margin-top: 5px;
 		}
 	}
 
 	&__right {
 		display: flex;
 		align-items: center;
+		gap: 10px;
+	}
+
+	&__btn {
+		width: 45px;
+		height: 45px;
+		border-radius: 50%;
+		background: linear-gradient(180deg, #5a2020 0%, #3d1515 100%);
+		border: 2px solid rgba(255, 255, 255, 0.2);
+		display: flex;
+		align-items: center;
 		justify-content: center;
-		gap: 15px;
-		transition: opacity 0.3s ease;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		color: #fff;
+		font-size: 18px;
 
-		&.hidden {
-			opacity: 0;
-			transform: scale(0.8);
+		@media (max-width:toEm($mobile)){
+			width: 38px;
+			height: 38px;
+			font-size: 14px;
+		}
+
+		&:hover {
+			transform: scale(1.05);
+			background: linear-gradient(180deg, #6a2525 0%, #4d1a1a 100%);
+		}
+
+		&:active {
+			transform: scale(0.95);
+		}
+
+		&--settings {
+			.menu__btn-icon {
+				font-size: 20px;
+			}
+		}
+
+		&--sound {
+			.menu__btn-icon::before {
+				content: '';
+				display: block;
+				width: 20px;
+				height: 20px;
+				background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z'/%3E%3C/svg%3E") center/contain no-repeat;
+
+				@media (max-width:toEm($mobile)){
+					width: 16px;
+					height: 16px;
+				}
+			}
+
+			&.sound-off {
+				opacity: 0.5;
+
+				.menu__btn-icon::before {
+					background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z'/%3E%3C/svg%3E");
+				}
+			}
+		}
+
+		&--info {
+			.menu__btn-icon {
+				font-family: serif;
+				font-style: italic;
+				font-weight: 700;
+				font-size: 20px;
+			}
+		}
+
+		&--arrow {
+			width: 40px;
+			height: 40px;
+			border-radius: 8px;
+			font-size: 14px;
+
+			@media (max-width:toEm($mobile)){
+				width: 32px;
+				height: 32px;
+				font-size: 12px;
+			}
+		}
+
+		&--auto {
+			.menu__btn-icon::before {
+				content: '';
+				display: block;
+				width: 22px;
+				height: 22px;
+				background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z'/%3E%3C/svg%3E") center/contain no-repeat;
+
+				@media (max-width:toEm($mobile)){
+					width: 18px;
+					height: 18px;
+				}
+			}
+		}
+
+		&--spin {
+			width: 65px;
+			height: 65px;
+			background: linear-gradient(180deg, #6a2525 0%, #4d1a1a 100%);
+			border: 3px solid rgba(255, 255, 255, 0.3);
+			flex-direction: column;
+			gap: 2px;
+
+			@media (max-width:toEm($mobile)){
+				width: 55px;
+				height: 55px;
+			}
+
+			.menu__btn-text {
+				font-size: 11px;
+				font-weight: 700;
+				letter-spacing: 1px;
+
+				@media (max-width:toEm($mobile)){
+					font-size: 9px;
+				}
+			}
+
+			&::before {
+				content: '';
+				display: block;
+				width: 28px;
+				height: 28px;
+				background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z'/%3E%3C/svg%3E") center/contain no-repeat;
+
+				@media (max-width:toEm($mobile)){
+					width: 22px;
+					height: 22px;
+				}
+			}
+
+			&:hover {
+				background: linear-gradient(180deg, #7a3030 0%, #5d2020 100%);
+			}
+		}
+
+		&.disabled {
+			opacity: 0.5;
+			filter: grayscale(0.5);
 			pointer-events: none;
-		}
-
-		span {
-			display: inline-block;
-		}
-
-		@media (max-width:toEm($mobileM)){
-			gap: 0;
 		}
 	}
 
-	&__button-auto,
-	&__button-spin {
+	&__button-spin,
+	&__button-auto {
 		transition: opacity 0.3s ease, filter 0.3s ease;
 
 		&.disabled {
@@ -632,26 +623,119 @@ $purple: #d358f9;
 		}
 	}
 
-	&__button-auto {
-		width: 70px;
-		height: 70px;
+	&__balance {
+		background: linear-gradient(180deg, #2a1010 0%, #1a0808 100%);
+		border: 2px solid rgba(255, 255, 255, 0.15);
+		border-radius: 8px;
+		padding: 8px 15px;
+		text-align: center;
+		min-width: 100px;
 
-		@media (max-width:toEm($mobileSmall)){
-			width: 35px;
-			height: 35px;
+		@media (max-width:toEm($mobile)){
+			padding: 5px 10px;
+			min-width: 80px;
+		}
+
+		&-label {
+			display: block;
+			font-size: 11px;
+			color: rgba(255, 255, 255, 0.6);
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			margin-bottom: 2px;
+
+			@media (max-width:toEm($mobile)){
+				font-size: 9px;
+			}
+		}
+
+		&-value {
+			display: block;
+			font-size: 20px;
+			font-weight: 700;
+			color: #fff;
+
+			@media (max-width:toEm($mobile)){
+				font-size: 16px;
+			}
 		}
 	}
 
-	&__button-spin {
-		width: 90px;
-		height: 90px;
+	&__bets {
 		display: flex;
-		align-items: center;
-		justify-content: center;
+		gap: 3px;
+		background: linear-gradient(180deg, #2a1010 0%, #1a0808 100%);
+		border-radius: 8px;
+		padding: 5px;
+		border: 2px solid rgba(255, 255, 255, 0.15);
+	}
+
+	&__bet-btn {
+		padding: 10px 18px;
+		background: linear-gradient(180deg, #5a2020 0%, #3d1515 100%);
+		border: none;
+		border-radius: 5px;
+		color: #fff;
+		font-size: 16px;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.2s ease;
 
 		@media (max-width:toEm($mobile)){
-			width: 100px;
-			height: 100px;
+			padding: 8px 12px;
+			font-size: 13px;
+		}
+
+		@media (max-width:toEm($mobileSmall)){
+			padding: 6px 10px;
+			font-size: 12px;
+		}
+
+		&:hover {
+			background: linear-gradient(180deg, #6a2525 0%, #4d1a1a 100%);
+		}
+
+		&.active {
+			background: linear-gradient(180deg, #8a3535 0%, #6d2020 100%);
+			box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+		}
+	}
+
+	&__bet-display {
+		background: linear-gradient(180deg, #2a1010 0%, #1a0808 100%);
+		border: 2px solid rgba(255, 255, 255, 0.15);
+		border-radius: 8px;
+		padding: 8px 20px;
+		text-align: center;
+		min-width: 70px;
+
+		@media (max-width:toEm($mobile)){
+			padding: 5px 12px;
+			min-width: 55px;
+		}
+
+		&-label {
+			display: block;
+			font-size: 11px;
+			color: rgba(255, 255, 255, 0.6);
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			margin-bottom: 2px;
+
+			@media (max-width:toEm($mobile)){
+				font-size: 9px;
+			}
+		}
+
+		&-value {
+			display: block;
+			font-size: 24px;
+			font-weight: 700;
+			color: #fff;
+
+			@media (max-width:toEm($mobile)){
+				font-size: 18px;
+			}
 		}
 	}
 }
@@ -764,7 +848,7 @@ $purple: #d358f9;
 }
 
 .cta-button {
-	background-color: $purple;
+	background-color: $red;
 	color: #fff;
 	padding: 15px 25px;
 	font-size: 22px;
@@ -778,15 +862,15 @@ $purple: #d358f9;
 @keyframes ctaPulse {
 	0% {
 		transform: scale(1);
-		box-shadow: 0 0 0 0 rgba($purple, 0.7);
+		box-shadow: 0 0 0 0 rgba($red, 0.7);
 	}
 	50% {
 		transform: scale(1.05);
-		box-shadow: 0 0 20px 10px rgba($purple, 0.3);
+		box-shadow: 0 0 20px 10px rgba($red, 0.3);
 	}
 	100% {
 		transform: scale(1);
-		box-shadow: 0 0 0 0 rgba($purple, 0);
+		box-shadow: 0 0 0 0 rgba($red, 0);
 	}
 }
 
