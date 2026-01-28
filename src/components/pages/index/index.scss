@@ -8,7 +8,6 @@ $purple: #d358f9;
 	box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
 	padding: 2px;
 	border-radius: 8px;
-	max-width: 112px;
 	width: 100%;
 
 	@media (max-width:toEm($mobile)){
@@ -99,28 +98,13 @@ $purple: #d358f9;
 
 	&__field {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: space-between;
 		gap: 15px;
 
 		@media (max-width:toEm($mobile)){
 			flex-direction: column-reverse; 
-		}
-	}
-
-	&__right {
-		display: flex;
-		flex-direction: column;
-		gap: 15px;
-
-		@media (max-width:toEm($mobile)){
-			display: none; 
-		}
-	}
-
-	&__left {
-		@media (max-width:toEm($mobile)){
-			display: none; 
 		}
 	}
 }
@@ -152,7 +136,6 @@ $purple: #d358f9;
 
 	&__list {
 		display: flex;
-		flex-direction: column;
 		gap: 5px;
 		text-align: center;
 		background-color: $bg-gold;
@@ -180,40 +163,6 @@ $purple: #d358f9;
 
 		@media (max-width:toEm($mobileSmall)){
 			padding: 10px 15px; 
-		}
-	}
-}
-
-.best {
-	@extend %border;
-
-	&__wrap {
-		@extend %border-wrap;
-		height: 160px;
-		background: $bg-gold;
-		position: relative;
-
-		&::after {
-			position: absolute;
-			content: '';
-			bottom: 5px;
-			left: 50%;
-			transform: translateX(-50%);
-			width: 80%;
-			height: 14px;
-			border-radius: 4px;
-			background-color: #65210c;
-		}
-	}
-
-	&__title {
-		padding: 5px 10px;
-		text-align: center;
-		text-transform: uppercase;
-		@extend %title-item;
-
-		span {
-			font-size: 12px;
 		}
 	}
 }
@@ -254,11 +203,11 @@ $purple: #d358f9;
 		position: relative;
 		overflow: hidden;
 		z-index: 10;
-		background-color: #CE9166;
+		background-color: #000;
 		border: 2px solid $gold;
 		box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
-		// Висота для 4 іконок на desktop
-		height: calc(150px * 4);
+		// Висота для 3 іконок на desktop
+		height: calc(150px * 3);
 
 		&:not(:first-child),
 		&:not(:last-child) {
