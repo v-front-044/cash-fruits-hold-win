@@ -5,7 +5,7 @@ class SlotMachine {
 		// DOM елементи
 		this.drumSpinner = document.querySelector('.drum__spinner');
 		this.popup = document.querySelector('.popup');
-		this.buttonsWrap = document.querySelector('.menu__right');
+		this.buttonsWrap = document.querySelector('.menu__bottom');
 
 		// Анімація конфеті
 		this.confettiAnimation = null;
@@ -24,6 +24,9 @@ class SlotMachine {
 		this.spinCount = 0;
 		this.isSpinning = false;
 		this.isSoundEnabled = true;
+
+		// Тип анімації виграшу: 'line' (виграшна лінія) або 'border' (анімована обводка)
+		this.winAnimationType = 'border';
 
 		// Фінансові значення
 		this.balance = 1000.00;
@@ -457,14 +460,14 @@ class SlotMachine {
 			this.drumSpinner.classList.add('bigwin-animation');
 			this.createWinEffects();
 
-			// Малюємо виграшну лінію
+			// Малюємо анімацію виграшу
 			if (result.winLine) {
-				this.drawWinLine(result.winLine);
+				this.drawWinAnimation(result.winLine);
 			}
 
 			setTimeout(() => {
 				this.drumSpinner.classList.remove('bigwin-animation');
-				this.removeWinLine();
+				this.removeWinAnimation();
 				this.enableSpinButtons();
 			}, 2000);
 
@@ -472,14 +475,14 @@ class SlotMachine {
 			this.playSound('win');
 			this.drumSpinner.classList.add('smallwin-animation');
 
-			// Малюємо виграшну лінію
+			// Малюємо анімацію виграшу
 			if (result.winLine) {
-				this.drawWinLine(result.winLine);
+				this.drawWinAnimation(result.winLine);
 			}
 
 			setTimeout(() => {
 				this.drumSpinner.classList.remove('smallwin-animation');
-				this.removeWinLine();
+				this.removeWinAnimation();
 				this.enableSpinButtons();
 			}, 1500);
 
@@ -487,6 +490,224 @@ class SlotMachine {
 			// Програш - одразу розблоковуємо кнопки
 			this.enableSpinButtons();
 		}
+	}
+
+	// Малює анімацію виграшу в залежності від типу
+	drawWinAnimation(winLine) {
+		if (this.winAnimationType === 'border') {
+			this.drawWinBorder(winLine);
+		} else {
+			this.drawWinLine(winLine);
+		}
+	}
+
+	// Видаляє анімацію виграшу
+	removeWinAnimation() {
+		if (this.winAnimationType === 'border') {
+			this.removeWinBorder();
+		} else {
+			this.removeWinLine();
+		}
+	}
+
+	// Встановлює тип анімації виграшу ('line' або 'border')
+	setWinAnimationType(type) {
+		if (type === 'line' || type === 'border') {
+			this.winAnimationType = type;
+		}
+	}
+
+	// Малює анімовану обводку навколо виграшних іконок
+	drawWinBorder(winLine) {
+		const columns = this.drumSpinner.querySelectorAll('.drum__column');
+		const iconHeight = this.config.iconHeight;
+		const rows = this.config.rows;
+
+		columns.forEach((column, colIndex) => {
+			const winRowIndex = winLine[colIndex];
+			if (winRowIndex === null || colIndex >= columns.length) return;
+
+			const strip = column.querySelector('.drum__strip');
+			const icons = strip.querySelectorAll('.drum__image');
+
+			// Визначаємо видимі іконки на основі поточної позиції strip
+			const transform = strip.style.transform;
+			const match = transform.match(/translateY\(-?(\d+)px\)/);
+			const currentOffset = match ? parseInt(match[1]) : 0;
+			const visibleStartIndex = Math.round(currentOffset / iconHeight);
+
+			// Застосовуємо ефекти до всіх видимих іконок
+			for (let i = 0; i < rows; i++) {
+				const iconIndex = visibleStartIndex + i;
+				const icon = icons[iconIndex];
+				if (!icon) continue;
+
+				if (i === winRowIndex) {
+					// Виграшна іконка - додаємо анімовану обводку
+					icon.classList.add('win-border-animation');
+					this.createAnimatedBorder(icon);
+				} else {
+					// Невиграшна іконка - затемнюємо
+					icon.classList.add('dimmed');
+				}
+			}
+		});
+	}
+
+	// Створює SVG анімовану обводку для іконки
+	createAnimatedBorder(iconElement) {
+		const width = iconElement.offsetWidth;
+		const height = iconElement.offsetHeight;
+		const padding = 8;
+
+		// Створюємо SVG контейнер
+		const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		svg.setAttribute('class', 'win-border-svg');
+		svg.setAttribute('width', width);
+		svg.setAttribute('height', height);
+		svg.style.position = 'absolute';
+		svg.style.top = '0';
+		svg.style.left = '0';
+		svg.style.pointerEvents = 'none';
+		svg.style.zIndex = '50';
+		svg.style.overflow = 'visible';
+
+		// Розміри прямокутника з відступом
+		const rectX = padding;
+		const rectY = padding;
+		const rectWidth = width - padding * 2;
+		const rectHeight = height - padding * 2;
+		const borderRadius = 12;
+
+		// Периметр прямокутника (для анімації)
+		const perimeter = 2 * (rectWidth + rectHeight);
+
+		// Defs для фільтрів
+		const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+
+		// Фільтр для blur/glow ефекту
+		const filterId = `glow-${Date.now()}-${Math.random()}`;
+		const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+		filter.setAttribute('id', filterId);
+		filter.setAttribute('x', '-50%');
+		filter.setAttribute('y', '-50%');
+		filter.setAttribute('width', '200%');
+		filter.setAttribute('height', '200%');
+
+		const feGaussianBlur = document.createElementNS('http://www.w3.org/2000/svg', 'feGaussianBlur');
+		feGaussianBlur.setAttribute('stdDeviation', '6');
+		feGaussianBlur.setAttribute('result', 'coloredBlur');
+
+		const feMerge = document.createElementNS('http://www.w3.org/2000/svg', 'feMerge');
+		const feMergeNode1 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
+		feMergeNode1.setAttribute('in', 'coloredBlur');
+		const feMergeNode2 = document.createElementNS('http://www.w3.org/2000/svg', 'feMergeNode');
+		feMergeNode2.setAttribute('in', 'SourceGraphic');
+
+		feMerge.appendChild(feMergeNode1);
+		feMerge.appendChild(feMergeNode2);
+		filter.appendChild(feGaussianBlur);
+		filter.appendChild(feMerge);
+		defs.appendChild(filter);
+		svg.appendChild(defs);
+
+		// Налаштування dash для анімації "біжучого" світла
+		const dashLength = perimeter * 0.2; // 20% периметра світиться
+
+		// Перша анімована лінія (починає з верхнього лівого кута)
+		const animRect1 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+		animRect1.setAttribute('x', rectX);
+		animRect1.setAttribute('y', rectY);
+		animRect1.setAttribute('width', rectWidth);
+		animRect1.setAttribute('height', rectHeight);
+		animRect1.setAttribute('rx', borderRadius);
+		animRect1.setAttribute('ry', borderRadius);
+		animRect1.setAttribute('fill', 'none');
+		animRect1.setAttribute('stroke', '#ffb921');
+		animRect1.setAttribute('stroke-width', '6');
+		animRect1.setAttribute('stroke-linecap', 'round');
+		animRect1.setAttribute('filter', `url(#${filterId})`);
+		animRect1.setAttribute('class', 'animated-border-rect');
+		animRect1.setAttribute('stroke-dasharray', `${dashLength} ${perimeter - dashLength}`);
+		animRect1.setAttribute('stroke-dashoffset', '0');
+		svg.appendChild(animRect1);
+
+		// Білий центр для першої лінії
+		const glowRect1 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+		glowRect1.setAttribute('x', rectX);
+		glowRect1.setAttribute('y', rectY);
+		glowRect1.setAttribute('width', rectWidth);
+		glowRect1.setAttribute('height', rectHeight);
+		glowRect1.setAttribute('rx', borderRadius);
+		glowRect1.setAttribute('ry', borderRadius);
+		glowRect1.setAttribute('fill', 'none');
+		glowRect1.setAttribute('stroke', '#fff');
+		glowRect1.setAttribute('stroke-width', '2');
+		glowRect1.setAttribute('stroke-linecap', 'round');
+		glowRect1.setAttribute('class', 'animated-border-glow');
+		glowRect1.setAttribute('stroke-dasharray', `${dashLength * 0.5} ${perimeter - dashLength * 0.5}`);
+		glowRect1.setAttribute('stroke-dashoffset', '0');
+		svg.appendChild(glowRect1);
+
+		// Друга анімована лінія (починає з діагонально протилежного кута - 50% зміщення)
+		const animRect2 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+		animRect2.setAttribute('x', rectX);
+		animRect2.setAttribute('y', rectY);
+		animRect2.setAttribute('width', rectWidth);
+		animRect2.setAttribute('height', rectHeight);
+		animRect2.setAttribute('rx', borderRadius);
+		animRect2.setAttribute('ry', borderRadius);
+		animRect2.setAttribute('fill', 'none');
+		animRect2.setAttribute('stroke', '#ffb921');
+		animRect2.setAttribute('stroke-width', '6');
+		animRect2.setAttribute('stroke-linecap', 'round');
+		animRect2.setAttribute('filter', `url(#${filterId})`);
+		animRect2.setAttribute('class', 'animated-border-rect-2');
+		animRect2.setAttribute('stroke-dasharray', `${dashLength} ${perimeter - dashLength}`);
+		animRect2.setAttribute('stroke-dashoffset', `${-perimeter * 0.5}`); // Зміщення на 50% (діагональ)
+		svg.appendChild(animRect2);
+
+		// Білий центр для другої лінії
+		const glowRect2 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+		glowRect2.setAttribute('x', rectX);
+		glowRect2.setAttribute('y', rectY);
+		glowRect2.setAttribute('width', rectWidth);
+		glowRect2.setAttribute('height', rectHeight);
+		glowRect2.setAttribute('rx', borderRadius);
+		glowRect2.setAttribute('ry', borderRadius);
+		glowRect2.setAttribute('fill', 'none');
+		glowRect2.setAttribute('stroke', '#fff');
+		glowRect2.setAttribute('stroke-width', '2');
+		glowRect2.setAttribute('stroke-linecap', 'round');
+		glowRect2.setAttribute('class', 'animated-border-glow-2');
+		glowRect2.setAttribute('stroke-dasharray', `${dashLength * 0.5} ${perimeter - dashLength * 0.5}`);
+		glowRect2.setAttribute('stroke-dashoffset', `${-perimeter * 0.5}`); // Зміщення на 50% (діагональ)
+		svg.appendChild(glowRect2);
+
+		// Додаємо SVG до іконки
+		iconElement.style.position = 'relative';
+		iconElement.appendChild(svg);
+
+		// Запускаємо CSS анімацію через клас
+		setTimeout(() => {
+			svg.classList.add('active');
+		}, 50);
+	}
+
+	// Видаляє анімовану обводку
+	removeWinBorder() {
+		// Видаляємо всі SVG обводки
+		const svgs = this.drumSpinner.querySelectorAll('.win-border-svg');
+		svgs.forEach(svg => {
+			svg.classList.remove('active');
+			setTimeout(() => svg.remove(), 300);
+		});
+
+		// Видаляємо класи з іконок
+		const icons = this.drumSpinner.querySelectorAll('.drum__image');
+		icons.forEach(icon => {
+			icon.classList.remove('win-border-animation', 'dimmed');
+		});
 	}
 
 	// Малює виграшну лінію через SVG

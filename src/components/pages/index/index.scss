@@ -389,6 +389,57 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	}
 }
 
+// Анімована обводка виграшних іконок (border animation)
+.drum__image.win-border-animation {
+	position: relative;
+	z-index: 20;
+}
+
+.win-border-svg {
+	opacity: 0;
+	transition: opacity 0.3s ease;
+
+	&.active {
+		opacity: 1;
+	}
+
+	// Перша лінія
+	.animated-border-rect {
+		animation: borderRotate 3s linear infinite;
+	}
+
+	.animated-border-glow {
+		animation: borderRotate 3s linear infinite;
+	}
+
+	// Друга лінія (діагональ)
+	.animated-border-rect-2 {
+		animation: borderRotate2 3s linear infinite;
+	}
+
+	.animated-border-glow-2 {
+		animation: borderRotate2 3s linear infinite;
+	}
+}
+
+@keyframes borderRotate {
+	0% {
+		stroke-dashoffset: 0;
+	}
+	100% {
+		stroke-dashoffset: -800;
+	}
+}
+
+@keyframes borderRotate2 {
+	0% {
+		stroke-dashoffset: -400;
+	}
+	100% {
+		stroke-dashoffset: -1200;
+	}
+}
+
 // Paylines SVG
 .paylines-svg {
 	opacity: 0;
@@ -446,10 +497,17 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		justify-content: space-between;
 		padding: 0 15px;
 		gap: 12px;
+		transition: opacity 0.3s ease, visibility 0.3s ease;
 
 		@media (max-width:toEm($mobile)){
 			padding: 8px 10px;
 			gap: 8px;
+		}
+
+		&.hidden {
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
 		}
 	}
 
