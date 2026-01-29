@@ -39,6 +39,10 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		padding-right: 0; 
 	}
 
+	@media (min-height: toEm(860)) {
+		padding-top: 25%;
+	}
+
 	&__wrap {
 		width: 100%;
 		padding: 0 80px;
@@ -92,6 +96,10 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+
+		@media (max-height: toEm(700)) {
+			margin-top: 10px;
+		}
 	}
 }
 
@@ -108,6 +116,10 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		min-width: 100%;
 		padding: 5px 10px;
 		order: 2;
+	}
+
+	@media (max-height: toEm(700)){
+		display: none;
 	}
 
 	&__label {
@@ -515,6 +527,9 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		display: flex;
 		align-items: center;
 		gap: 10px;
+		background-color: $dark-red;
+		border-radius: 36px;
+		padding: 5px;
 	}
 
 	&__box {
@@ -595,6 +610,10 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 				font-style: italic;
 				font-weight: 700;
 				font-size: 24px;
+			}
+
+			@media (max-width:toEm($mobileSmall)){
+				display: none; 
 			}
 		}
 
@@ -690,7 +709,7 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		border-radius: 8px;
 		padding: 6px 20px;
 		text-align: center;
-		min-width: 120px;
+		width: 126px;
 
 		@media (max-width:toEm($mobile)){
 			padding: 4px 12px;
@@ -724,11 +743,15 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 
 	&__bets {
 		display: flex;
-		gap: 0;
+		gap: 5px;
 		background: transparent;
 		border-radius: 30px;
 		padding: 0;
 		border: none;
+
+		@media (max-width:toEm($tablet)){
+			display: none; 
+		}
 	}
 
 	&__bet-btn {
@@ -768,7 +791,7 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		border-radius: 8px;
 		padding: 6px 25px;
 		text-align: center;
-		min-width: 90px;
+		width: 126px;
 
 		@media (max-width:toEm($mobile)){
 			padding: 4px 15px;

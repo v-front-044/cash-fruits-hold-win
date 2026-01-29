@@ -14,11 +14,15 @@ class SlotMachine {
 		this.spinButton = document.querySelector('.menu__button-spin');
 		this.autoButton = document.querySelector('.menu__button-auto');
 		this.soundButton = document.querySelector('.menu__sound');
-		this.arrowButtons = document.querySelectorAll('.menu__button-arrow');
+		this.increaseButton = document.querySelector('.menu__button-arrow.increase');
+		this.reduceButton = document.querySelector('.menu__button-arrow.reduce');
+
+		// Кнопки ставок
+		this.betButtons = document.querySelectorAll('.menu__bet-btn');
 
 		// Елементи UI
 		this.balanceElement = document.querySelector('.menu__info .number');
-		this.betElement = document.querySelector('.menu__credit .number');
+		this.betElement = document.querySelector('.menu__bet-value .number');
 
 		// Стан гри
 		this.spinCount = 0;
@@ -30,10 +34,9 @@ class SlotMachine {
 
 		// Фінансові значення
 		this.balance = 1000.00;
-		this.bet = 1.20;
-		this.betStep = 0.60;
-		this.minBet = 0.60;
-		this.maxBet = 48.00;
+		this.betValues = this.getBetValuesFromButtons();
+		this.currentBetIndex = 0;
+		this.bet = this.betValues[this.currentBetIndex];
 
 		// Брейкпоінти: desktop (>767.98px) та mobile (<=767.98px)
 		this.breakpoints = {
@@ -203,14 +206,24 @@ class SlotMachine {
 		});
 
 		// Обробники стрілок для зміни ставки
-		this.arrowButtons.forEach((button) => {
-			button.addEventListener('click', (e) => {
+		if (this.increaseButton) {
+			this.increaseButton.addEventListener('click', (e) => {
 				e.preventDefault();
-				if (button.classList.contains('bottom')) {
-					this.decreaseBet();
-				} else {
-					this.increaseBet();
-				}
+				this.decreaseBet();
+			});
+		}
+
+		if (this.reduceButton) {
+			this.reduceButton.addEventListener('click', (e) => {
+				e.preventDefault();
+				this.increaseBet();
+			});
+		}
+
+		// Обробники кнопок ставок
+		this.betButtons.forEach((button, index) => {
+			button.addEventListener('click', () => {
+				this.selectBet(index);
 			});
 		});
 
@@ -906,26 +919,62 @@ class SlotMachine {
 		this.autoButton.classList.remove('disabled');
 	}
 
-	// Збільшення ставки
+	// Отримує значення ставок з кнопок
+	getBetValuesFromButtons() {
+		const values = [];
+		this.betButtons.forEach((button) => {
+			const value = parseInt(button.textContent, 10);
+			if (!isNaN(value)) {
+				values.push(value);
+			}
+		});
+		return values.length > 0 ? values : [1, 5, 10, 20, 30];
+	}
+
+	// Вибір ставки по індексу
+	selectBet(index) {
+		if (this.isSpinning) return;
+		if (index < 0 || index >= this.betValues.length) return;
+
+		this.currentBetIndex = index;
+		this.bet = this.betValues[index];
+		this.updateBetButtonsUI();
+		this.updateUI();
+	}
+
+	// Збільшення ставки (перехід до наступної кнопки)
 	increaseBet() {
 		if (this.isSpinning) return;
 
-		const newBet = Math.round((this.bet + this.betStep) * 100) / 100;
-		if (newBet <= this.maxBet) {
-			this.bet = newBet;
+		if (this.currentBetIndex < this.betValues.length - 1) {
+			this.currentBetIndex++;
+			this.bet = this.betValues[this.currentBetIndex];
+			this.updateBetButtonsUI();
 			this.updateUI();
 		}
 	}
 
-	// Зменшення ставки
+	// Зменшення ставки (перехід до попередньої кнопки)
 	decreaseBet() {
 		if (this.isSpinning) return;
 
-		const newBet = Math.round((this.bet - this.betStep) * 100) / 100;
-		if (newBet >= this.minBet) {
-			this.bet = newBet;
+		if (this.currentBetIndex > 0) {
+			this.currentBetIndex--;
+			this.bet = this.betValues[this.currentBetIndex];
+			this.updateBetButtonsUI();
 			this.updateUI();
 		}
+	}
+
+	// Оновлення UI кнопок ставок (клас active)
+	updateBetButtonsUI() {
+		this.betButtons.forEach((button, index) => {
+			if (index === this.currentBetIndex) {
+				button.classList.add('active');
+			} else {
+				button.classList.remove('active');
+			}
+		});
 	}
 
 	// Оновлення UI
@@ -934,7 +983,7 @@ class SlotMachine {
 			this.balanceElement.textContent = this.balance.toFixed(2);
 		}
 		if (this.betElement) {
-			this.betElement.textContent = this.bet.toFixed(2);
+			this.betElement.textContent = this.bet;
 		}
 	}
 
