@@ -107,12 +107,12 @@ class SlotMachine {
 					type: 'smallwin',
 					winAmount: 50,
 					// Виграшна лінія: середній рядок (горизонтальна лінія посередині)
-					winLine: [1, 1, 1, 1, null],
+					winLine: [1, 2, 1, null, null],
 					result: [
 						[1, 3, 4],
-						[7, 3, 8],
+						[7, 4, 3],
 						[4, 3, 1],
-						[2, 3, 4],
+						[2, 5, 4],
 						[5, 6, 7]
 					]
 				},
@@ -123,8 +123,8 @@ class SlotMachine {
 					winLine: [0, 0, 1, 2, 2],
 					result: [
 						[8, 4, 7],
-						[5, 8, 2],
-						[3, 4, 8],
+						[8, 6, 2],
+						[3, 8, 1],
 						[1, 4, 8],
 						[5, 3, 8]
 					]
@@ -273,7 +273,7 @@ class SlotMachine {
 				const iconNum = ((i + randomOffset) % this.icons) + 1;
 				const icon = document.createElement('div');
 				icon.className = 'drum__image';
-				icon.innerHTML = `<img src="@img/icon/icon-${iconNum}.png" alt="Icon ${iconNum}">`;
+				icon.innerHTML = `<img src="@img/icon/icon-${iconNum}.webp" alt="Icon ${iconNum}">`;
 				strip.appendChild(icon);
 			}
 
@@ -285,7 +285,7 @@ class SlotMachine {
 					columnIcons.forEach((iconNum) => {
 						const icon = document.createElement('div');
 						icon.className = 'drum__image';
-						icon.innerHTML = `<img src="@img/icon/icon-${iconNum}.png" alt="Icon ${iconNum}">`;
+						icon.innerHTML = `<img src="@img/icon/icon-${iconNum}.webp" alt="Icon ${iconNum}">`;
 						strip.appendChild(icon);
 					});
 				}
@@ -465,7 +465,7 @@ class SlotMachine {
 	// Отримує номер іконки з src
 	getIconNumber(img) {
 		const src = img.getAttribute('src');
-		const match = src.match(/icon-(\d+)\.png/);
+		const match = src.match(/icon-(\d+)\.webp/);
 		return match ? parseInt(match[1]) : 1;
 	}
 

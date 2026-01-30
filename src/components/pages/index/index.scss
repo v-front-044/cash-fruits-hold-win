@@ -53,6 +53,10 @@ $base-width: 1440;
 		padding-top: 25%;
 	}
 
+	@media (max-height: toEm(800)) and (min-width: toEm($mobile)) {
+		height: auto;
+	}
+
 	&__wrap {
 		width: 100%;
 		padding: 0 vw(80);
@@ -88,6 +92,7 @@ $base-width: 1440;
 		margin: 0 auto;
 		position: relative;
 		z-index: 100;
+		height: vw(64);
 
 		img {
 			width: 100%;
