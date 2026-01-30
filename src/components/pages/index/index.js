@@ -39,18 +39,21 @@ class SlotMachine {
 		this.bet = this.betValues[this.currentBetIndex];
 
 		// Брейкпоінти: desktop (>767.98px) та mobile (<=767.98px)
+		// Desktop iconHeight масштабується тільки на екранах > 1440px
+		// На менших екранах залишається фіксованим 180px
 		this.breakpoints = {
 			desktop: {
 				minWidth: 767.98,
 				cols: 5,
 				rows: 3,
-				iconHeight: 180
+				// Масштабування тільки для екранів > 1440px, інакше фіксовано 180px
+				getIconHeight: () => Math.max(180, (180 / 1440) * window.innerWidth)
 			},
 			mobile: {
 				minWidth: 0,
 				cols: 3,
 				rows: 3,
-				iconHeight: 140
+				getIconHeight: () => 140
 			}
 		};
 
@@ -250,7 +253,7 @@ class SlotMachine {
 
 		const cols = this.config.cols;
 		const rows = this.config.rows;
-		const iconHeight = this.config.iconHeight;
+		const iconHeight = this.config.getIconHeight();
 
 		// Створюємо колонки
 		for (let colIndex = 0; colIndex < cols; colIndex++) {
@@ -299,7 +302,7 @@ class SlotMachine {
 	// Встановлює початкові позиції стрічок
 	initializePositions() {
 		const columns = this.drumSpinner.querySelectorAll('.drum__column');
-		const iconHeight = this.config.iconHeight;
+		const iconHeight = this.config.getIconHeight();
 
 		columns.forEach((column) => {
 			const strip = column.querySelector('.drum__strip');
@@ -395,7 +398,7 @@ class SlotMachine {
 	// Анімація обертання однієї колонки
 	spinColumn(column, targetIcons, duration, colIndex) {
 		const strip = column.querySelector('.drum__strip');
-		const iconHeight = this.config.iconHeight;
+		const iconHeight = this.config.getIconHeight();
 		const rows = this.config.rows;
 
 		// Знаходимо позицію потрібної послідовності в стрічці
@@ -533,7 +536,7 @@ class SlotMachine {
 	// Малює анімовану обводку навколо виграшних іконок
 	drawWinBorder(winLine) {
 		const columns = this.drumSpinner.querySelectorAll('.drum__column');
-		const iconHeight = this.config.iconHeight;
+		const iconHeight = this.config.getIconHeight();
 		const rows = this.config.rows;
 
 		columns.forEach((column, colIndex) => {
@@ -567,11 +570,23 @@ class SlotMachine {
 		});
 	}
 
+	// Масштабує значення пропорційно viewport (тільки для екранів > 1440px)
+	scaleValue(px) {
+		const baseWidth = 1440;
+		return Math.max(px, (px / baseWidth) * window.innerWidth);
+	}
+
 	// Створює SVG анімовану обводку для іконки
 	createAnimatedBorder(iconElement) {
 		const width = iconElement.offsetWidth;
 		const height = iconElement.offsetHeight;
-		const padding = 8;
+
+		// Масштабовані значення для екранів > 1440px
+		const padding = this.scaleValue(8);
+		const borderRadius = this.scaleValue(12);
+		const strokeWidthMain = this.scaleValue(6);
+		const strokeWidthGlow = this.scaleValue(2);
+		const blurStdDeviation = this.scaleValue(6);
 
 		// Створюємо SVG контейнер
 		const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -590,7 +605,6 @@ class SlotMachine {
 		const rectY = padding;
 		const rectWidth = width - padding * 2;
 		const rectHeight = height - padding * 2;
-		const borderRadius = 12;
 
 		// Периметр прямокутника (для анімації)
 		const perimeter = 2 * (rectWidth + rectHeight);
@@ -608,7 +622,7 @@ class SlotMachine {
 		filter.setAttribute('height', '200%');
 
 		const feGaussianBlur = document.createElementNS('http://www.w3.org/2000/svg', 'feGaussianBlur');
-		feGaussianBlur.setAttribute('stdDeviation', '6');
+		feGaussianBlur.setAttribute('stdDeviation', blurStdDeviation);
 		feGaussianBlur.setAttribute('result', 'coloredBlur');
 
 		const feMerge = document.createElementNS('http://www.w3.org/2000/svg', 'feMerge');
@@ -627,6 +641,28 @@ class SlotMachine {
 		// Налаштування dash для анімації "біжучого" світла
 		const dashLength = perimeter * 0.2; // 20% периметра світиться
 
+		// Унікальне ім'я для keyframes (на основі периметра)
+		const animationName1 = `borderRotate-${Math.round(perimeter)}`;
+		const animationName2 = `borderRotate2-${Math.round(perimeter)}`;
+
+		// Додаємо динамічні keyframes в style тег
+		const styleId = `border-anim-style-${Math.round(perimeter)}`;
+		if (!document.getElementById(styleId)) {
+			const style = document.createElement('style');
+			style.id = styleId;
+			style.textContent = `
+				@keyframes ${animationName1} {
+					0% { stroke-dashoffset: 0; }
+					100% { stroke-dashoffset: ${-perimeter}; }
+				}
+				@keyframes ${animationName2} {
+					0% { stroke-dashoffset: ${-perimeter * 0.5}; }
+					100% { stroke-dashoffset: ${-perimeter * 1.5}; }
+				}
+			`;
+			document.head.appendChild(style);
+		}
+
 		// Перша анімована лінія (починає з верхнього лівого кута)
 		const animRect1 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 		animRect1.setAttribute('x', rectX);
@@ -637,12 +673,12 @@ class SlotMachine {
 		animRect1.setAttribute('ry', borderRadius);
 		animRect1.setAttribute('fill', 'none');
 		animRect1.setAttribute('stroke', '#ffb921');
-		animRect1.setAttribute('stroke-width', '6');
+		animRect1.setAttribute('stroke-width', strokeWidthMain);
 		animRect1.setAttribute('stroke-linecap', 'round');
 		animRect1.setAttribute('filter', `url(#${filterId})`);
-		animRect1.setAttribute('class', 'animated-border-rect');
 		animRect1.setAttribute('stroke-dasharray', `${dashLength} ${perimeter - dashLength}`);
 		animRect1.setAttribute('stroke-dashoffset', '0');
+		animRect1.style.animation = `${animationName1} 3s linear infinite`;
 		svg.appendChild(animRect1);
 
 		// Білий центр для першої лінії
@@ -655,11 +691,11 @@ class SlotMachine {
 		glowRect1.setAttribute('ry', borderRadius);
 		glowRect1.setAttribute('fill', 'none');
 		glowRect1.setAttribute('stroke', '#fff');
-		glowRect1.setAttribute('stroke-width', '2');
+		glowRect1.setAttribute('stroke-width', strokeWidthGlow);
 		glowRect1.setAttribute('stroke-linecap', 'round');
-		glowRect1.setAttribute('class', 'animated-border-glow');
 		glowRect1.setAttribute('stroke-dasharray', `${dashLength * 0.5} ${perimeter - dashLength * 0.5}`);
 		glowRect1.setAttribute('stroke-dashoffset', '0');
+		glowRect1.style.animation = `${animationName1} 3s linear infinite`;
 		svg.appendChild(glowRect1);
 
 		// Друга анімована лінія (починає з діагонально протилежного кута - 50% зміщення)
@@ -672,12 +708,12 @@ class SlotMachine {
 		animRect2.setAttribute('ry', borderRadius);
 		animRect2.setAttribute('fill', 'none');
 		animRect2.setAttribute('stroke', '#ffb921');
-		animRect2.setAttribute('stroke-width', '6');
+		animRect2.setAttribute('stroke-width', strokeWidthMain);
 		animRect2.setAttribute('stroke-linecap', 'round');
 		animRect2.setAttribute('filter', `url(#${filterId})`);
-		animRect2.setAttribute('class', 'animated-border-rect-2');
 		animRect2.setAttribute('stroke-dasharray', `${dashLength} ${perimeter - dashLength}`);
-		animRect2.setAttribute('stroke-dashoffset', `${-perimeter * 0.5}`); // Зміщення на 50% (діагональ)
+		animRect2.setAttribute('stroke-dashoffset', `${-perimeter * 0.5}`);
+		animRect2.style.animation = `${animationName2} 3s linear infinite`;
 		svg.appendChild(animRect2);
 
 		// Білий центр для другої лінії
@@ -690,11 +726,11 @@ class SlotMachine {
 		glowRect2.setAttribute('ry', borderRadius);
 		glowRect2.setAttribute('fill', 'none');
 		glowRect2.setAttribute('stroke', '#fff');
-		glowRect2.setAttribute('stroke-width', '2');
+		glowRect2.setAttribute('stroke-width', strokeWidthGlow);
 		glowRect2.setAttribute('stroke-linecap', 'round');
-		glowRect2.setAttribute('class', 'animated-border-glow-2');
 		glowRect2.setAttribute('stroke-dasharray', `${dashLength * 0.5} ${perimeter - dashLength * 0.5}`);
-		glowRect2.setAttribute('stroke-dashoffset', `${-perimeter * 0.5}`); // Зміщення на 50% (діагональ)
+		glowRect2.setAttribute('stroke-dashoffset', `${-perimeter * 0.5}`);
+		glowRect2.style.animation = `${animationName2} 3s linear infinite`;
 		svg.appendChild(glowRect2);
 
 		// Додаємо SVG до іконки
@@ -726,7 +762,7 @@ class SlotMachine {
 	// Малює виграшну лінію через SVG
 	drawWinLine(winLine) {
 		const columns = this.drumSpinner.querySelectorAll('.drum__column');
-		const iconHeight = this.config.iconHeight;
+		const iconHeight = this.config.getIconHeight();
 		const spinnerRect = this.drumSpinner.getBoundingClientRect();
 
 		// Створюємо SVG елемент
@@ -792,7 +828,7 @@ class SlotMachine {
 	applyWinIconEffects(winLine) {
 		const columns = this.drumSpinner.querySelectorAll('.drum__column');
 		const rows = this.config.rows;
-		const iconHeight = this.config.iconHeight;
+		const iconHeight = this.config.getIconHeight();
 
 		columns.forEach((column, colIndex) => {
 			const strip = column.querySelector('.drum__strip');
@@ -1039,7 +1075,7 @@ class SlotMachine {
 		const lines = this.linePatterns[value];
 		if (!lines) return;
 
-		const iconHeight = this.config.iconHeight;
+		const iconHeight = this.config.getIconHeight();
 		const spinnerRect = this.drumSpinner.getBoundingClientRect();
 		const columns = this.drumSpinner.querySelectorAll('.drum__column');
 

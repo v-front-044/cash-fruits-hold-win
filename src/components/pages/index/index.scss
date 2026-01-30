@@ -7,7 +7,17 @@ $orange-border: #fe851c;
 $cyan: #00d4ff;
 $bg-dark: #1a0505;
 $menu-bg: #2d1515;
-$frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
+$frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);
+
+// Base width for vw calculations (design width)
+$base-width: 1440;
+
+// Function to convert px to vw (proportional scaling only for screens > 1440px)
+// On screens <= 1440px returns fixed px value
+// On screens > 1440px scales proportionally
+@function vw($px) {
+	@return max(#{$px}px, calc(#{$px} / #{$base-width} * 100vw));
+}
 
 .page {
 	background: url('../../../assets/img/bg.jpg') center/cover no-repeat;
@@ -29,23 +39,23 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	height: 100vh;
 	position: relative;
 	z-index: 5;
-	padding: 10px 30px;
+	padding: vw(10) vw(30);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 
 	@media (max-width:toEm($mobile)){
 		padding-left: 0;
-		padding-right: 0; 
+		padding-right: 0;
 	}
 
-	@media (min-height: toEm(860)) {
+	@media (min-height: toEm(860)) and (max-width: toEm($mobile)) {
 		padding-top: 25%;
 	}
 
 	&__wrap {
 		width: 100%;
-		padding: 0 80px;
+		padding: 0 vw(80);
 
 		@media (max-width:toEm($tablet)){
 			padding: 0;
@@ -56,10 +66,10 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 10px;
+		gap: vw(10);
 		position: relative;
 		z-index: 10;
-		padding: 0 10px;
+		padding: 0 vw(10);
 
 		@media (max-width:toEm($mobile)){
 			display: grid;
@@ -72,8 +82,8 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		max-width: 460px;
-		min-width: 260px;
+		max-width: vw(360);
+		min-width: vw(260);
 		width: 100%;
 		margin: 0 auto;
 		position: relative;
@@ -92,7 +102,7 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	}
 
 	&__field {
-		margin-top: 4px;
+		margin-top: vw(4);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -108,8 +118,8 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 4px 20px;
-	max-width: 280px;
+	padding: vw(4) vw(20);
+	max-width: vw(280);
 	width: 100%;
 
 	@media (max-width:toEm($mobile)){
@@ -123,11 +133,11 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	}
 
 	&__label {
-		font-size: 18px;
+		font-size: vw(18);
 		font-weight: 700;
 		text-transform: uppercase;
-		letter-spacing: 2px;
-		margin-bottom: 5px;
+		letter-spacing: vw(2);
+		margin-bottom: vw(5);
 
 		@media (max-width:toEm($mobile)){
 			font-size: 12px;
@@ -135,7 +145,7 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	}
 
 	&__value {
-		font-size: 36px;
+		font-size: vw(28);
 		font-weight: 900;
 		line-height: 1;
 
@@ -145,32 +155,32 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	}
 
 	&--mega {
-		border: 3px solid #ffa135;
-		border-radius: 6px;
-		box-shadow: 0 0 15px rgba(255, 107, 53, 0.8), inset 0 0 20px rgba(255, 215, 0, 0.6);
+		border: vw(3) solid #ffa135;
+		border-radius: vw(6);
+		box-shadow: 0 0 vw(15) rgba(255, 107, 53, 0.8), inset 0 0 vw(20) rgba(255, 215, 0, 0.6);
 
 		.jackpot__label {
 			color: #ff6b35;
-			text-shadow: 0 0 10px rgba(255, 107, 53, 0.8);
+			text-shadow: 0 0 vw(10) rgba(255, 107, 53, 0.8);
 		}
 		.jackpot__value {
 			color: $gold-light;
-			text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+			text-shadow: 0 0 vw(15) rgba(255, 215, 0, 0.6);
 		}
 	}
 
 	&--mini {
-		border: 3px solid $cyan;
-		border-radius: 6px;
-		box-shadow: 0 0 15px rgba(0, 212, 255, 0.5), inset 0 0 20px rgba(0, 212, 255, 0.1);
+		border: vw(3) solid $cyan;
+		border-radius: vw(6);
+		box-shadow: 0 0 vw(15) rgba(0, 212, 255, 0.5), inset 0 0 vw(20) rgba(0, 212, 255, 0.1);
 
 		.jackpot__label {
 			color: $cyan;
-			text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+			text-shadow: 0 0 vw(10) rgba(0, 212, 255, 0.8);
 		}
 		.jackpot__value {
 			color: #fff;
-			text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+			text-shadow: 0 0 vw(10) rgba(255, 255, 255, 0.5);
 		}
 	}
 }
@@ -184,13 +194,15 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	position: relative;
 	width: 100%;
 	background: $frameGradient;
-	border: 2px solid $gold;
-	box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
-	padding: 4px 18px;
-	border-radius: 16px;
+	border: vw(2) solid $gold;
+	box-shadow: 0 0 vw(6) rgba(246, 201, 139, 0.6);
+	padding: vw(4) vw(18);
+	border-radius: vw(16);
 
 	@media (max-width:toEm($mobile)){
-		padding: 4px; 
+		padding: 4px;
+		border-width: 2px;
+		border-radius: 16px;
 	}
 
 	&__spinner {
@@ -201,13 +213,14 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		background: $frameGradient;
 		position: relative;
 		z-index: 10;
-		border: 4px solid $orange-border;
-		box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
-		border-radius: 12px;
+		border: vw(4) solid $orange-border;
+		box-shadow: 0 0 vw(6) rgba(246, 201, 139, 0.6);
+		border-radius: vw(12);
 
 		@media (max-width:toEm($mobile)){
 			grid-template-columns: repeat(3, 1fr);
 			border-width: 2px;
+			border-radius: 12px;
 		}
 	}
 
@@ -216,19 +229,22 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		overflow: hidden;
 		z-index: 10;
 		background-color: #000;
-		border: 4px solid $orange-border;
-		box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
-		border-radius: 12px;
-		height: calc(180px * 3);
+		border: vw(4) solid $orange-border;
+		box-shadow: 0 0 vw(6) rgba(246, 201, 139, 0.6);
+		border-radius: vw(12);
+		// 180px * 3 = 540px -> vw(540) = 37.5vw
+		height: vw(540);
 
 		&:not(:first-child),
 		&:not(:last-child) {
-			margin: 2px 2px;
+			margin: vw(2) vw(2);
 		}
 
 		@media (max-width:toEm($mobile)){
 			height: calc(140px * 3);
 			border-width: 2px;
+			border-radius: 12px;
+			margin: 2px;
 
 			&:nth-child(4),
 			&:nth-child(5) {
@@ -254,7 +270,8 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		align-items: center;
 		justify-content: center;
 		width: 100%;
-		height: 180px;
+		// 180px -> vw(180) = 12.5vw
+		height: vw(180);
 		flex-shrink: 0;
 
 		@media (max-width:toEm($mobile)){
@@ -287,23 +304,28 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 
 @keyframes pulse {
 	from {
-		box-shadow: 0 0 6px rgba(246, 201, 139, 0.6);
+		box-shadow: 0 0 vw(6) rgba(246, 201, 139, 0.6);
 	}
 	to {
-		box-shadow: 0 0 30px rgba(255, 215, 0, 0.9), 0 0 60px rgba(255, 215, 0, 0.5);
+		box-shadow: 0 0 vw(30) rgba(255, 215, 0, 0.9), 0 0 vw(60) rgba(255, 215, 0, 0.5);
 	}
 }
 
 // Вспишки при виграші
 .win-flash {
 	position: absolute;
-	width: 20px;
-	height: 20px;
+	width: vw(20);
+	height: vw(20);
 	background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 215, 0, 0.8) 50%, transparent 70%);
 	border-radius: 50%;
 	pointer-events: none;
 	animation: flash 0.6s ease-out forwards;
 	z-index: 100;
+
+	@media (max-width:toEm($mobile)){
+		width: 20px;
+		height: 20px;
+	}
 }
 
 @keyframes flash {
@@ -332,29 +354,29 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	stroke: linear;
 	stroke: url(#winLineGradient);
 	stroke: #ffcc00;
-	stroke-width: 6;
+	stroke-width: vw(6);
 	stroke-linecap: round;
 	stroke-linejoin: round;
-	filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.8)) drop-shadow(0 0 15px rgba(255, 150, 0, 0.6));
+	filter: drop-shadow(0 0 vw(8) rgba(255, 200, 0, 0.8)) drop-shadow(0 0 vw(15) rgba(255, 150, 0, 0.6));
 	animation: lineGlow 0.5s ease-in-out infinite alternate;
 }
 
 .win-line-dot {
 	fill: #fff;
 	stroke: #ffcc00;
-	stroke-width: 3;
-	filter: drop-shadow(0 0 6px rgba(255, 200, 0, 0.9));
+	stroke-width: vw(3);
+	filter: drop-shadow(0 0 vw(6) rgba(255, 200, 0, 0.9));
 	animation: dotPulse 0.4s ease-in-out infinite alternate;
 }
 
 @keyframes lineGlow {
 	from {
-		stroke-width: 5;
-		filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.8)) drop-shadow(0 0 15px rgba(255, 150, 0, 0.6));
+		stroke-width: vw(5);
+		filter: drop-shadow(0 0 vw(8) rgba(255, 200, 0, 0.8)) drop-shadow(0 0 vw(15) rgba(255, 150, 0, 0.6));
 	}
 	to {
-		stroke-width: 8;
-		filter: drop-shadow(0 0 12px rgba(255, 200, 0, 1)) drop-shadow(0 0 25px rgba(255, 150, 0, 0.8));
+		stroke-width: vw(8);
+		filter: drop-shadow(0 0 vw(12) rgba(255, 200, 0, 1)) drop-shadow(0 0 vw(25) rgba(255, 150, 0, 0.8));
 	}
 }
 
@@ -378,7 +400,7 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 // Хитання виграшних іконок
 .drum__image.winning {
 	animation: wobble 0.4s ease-in-out infinite;
-	filter: brightness(1.1) drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+	filter: brightness(1.1) drop-shadow(0 0 vw(8) rgba(255, 215, 0, 0.8));
 	z-index: 20;
 	position: relative;
 }
@@ -465,18 +487,18 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 .payline {
 	fill: none;
 	stroke: $gold;
-	stroke-width: 5;
+	stroke-width: vw(5);
 	stroke-linecap: round;
 	stroke-linejoin: round;
 	paint-order: stroke fill;
-	filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.5));
+	filter: drop-shadow(0 0 vw(4) rgba(0, 0, 0, 0.5));
 }
 
 // Червона обводка для ліній
 .payline-stroke {
 	fill: none;
 	stroke: #d53404;
-	stroke-width: 9;
+	stroke-width: vw(9);
 	stroke-linecap: round;
 	stroke-linejoin: round;
 }
@@ -487,14 +509,18 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	z-index: 10;
 	color: #fff;
 	font-weight: 500;
-	font-size: 16px;
+	font-size: vw(16);
+
+	@media (max-width:toEm($mobile)){
+		font-size: 16px;
+	}
 
 	&__top {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 8px 15px;
-		gap: 15px;
+		padding: vw(8) vw(15);
+		gap: vw(15);
 		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
 		@media (max-width:toEm($mobile)){
@@ -507,8 +533,8 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0 15px;
-		gap: 12px;
+		padding: 0 vw(15);
+		gap: vw(12);
 		transition: opacity 0.3s ease, visibility 0.3s ease;
 
 		@media (max-width:toEm($mobile)){
@@ -526,50 +552,62 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	&__wrap {
 		display: flex;
 		align-items: center;
-		gap: 10px;
+		gap: vw(10);
 		background-color: $dark-red;
-		border-radius: 36px;
-		padding: 5px;
+		border-radius: vw(36);
+		padding: vw(5);
+
+		@media (max-width:toEm($mobile)){
+			gap: 10px;
+			border-radius: 36px;
+			padding: 5px;
+		}
 	}
 
 	&__box {
 		display: flex;
 		align-items: center;
-		gap: 25px;
+		gap: vw(25);
+
+		@media (max-width:toEm($mobile)){
+			gap: 25px;
+		}
 	}
 
 	&__status {
 		flex: 1;
 		text-align: center;
-		font-size: 18px;
+		font-size: vw(18);
 		font-weight: 700;
 		color: #fff;
-		letter-spacing: 2px;
+		letter-spacing: vw(2);
 		text-transform: uppercase;
 
 		@media (max-width:toEm($mobile)){
 			font-size: 14px;
+			letter-spacing: 2px;
 		}
 	}
 
 	&__btn {
-		width: 50px;
-		height: 50px;
+		width: vw(50);
+		height: vw(50);
 		border-radius: 50%;
 		background: transparent;
-		border: 3px solid rgba(255, 255, 255, 0.4);
+		border: vw(3) solid rgba(255, 255, 255, 0.4);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
 		transition: all 0.2s ease;
 		color: #fff;
-		font-size: 18px;
+		font-size: vw(18);
 
 		@media (max-width:toEm($mobile)){
 			width: 42px;
 			height: 42px;
 			font-size: 14px;
+			border-width: 3px;
 		}
 
 		&:hover {
@@ -585,9 +623,8 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 			.menu__btn-icon::before {
 				content: '';
 				display: block;
-				width: 24px;
-				height: 24px;
-				// Іконка звуку увімкнено (без перекреслення)
+				width: vw(24);
+				height: vw(24);
 				background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z'/%3E%3C/svg%3E") center/contain no-repeat;
 
 				@media (max-width:toEm($mobile)){
@@ -600,7 +637,6 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 				opacity: 0.5;
 
 				.menu__btn-icon::before {
-					// Іконка звуку вимкнено (з перекресленням)
 					background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z'/%3E%3C/svg%3E");
 				}
 			}
@@ -611,19 +647,23 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 				font-family: serif;
 				font-style: italic;
 				font-weight: 700;
-				font-size: 24px;
+				font-size: vw(24);
+
+				@media (max-width:toEm($mobile)){
+					font-size: 24px;
+				}
 			}
 
 			@media (max-width:toEm($mobileSmall)){
-				display: none; 
+				display: none;
 			}
 		}
 
 		&--arrow {
-			width: 50px;
-			height: 50px;
+			width: vw(50);
+			height: vw(50);
 			border-radius: 50%;
-			font-size: 16px;
+			font-size: vw(16);
 
 			@media (max-width:toEm($mobile)){
 				width: 42px;
@@ -636,8 +676,8 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 			.menu__btn-icon::before {
 				content: '';
 				display: block;
-				width: 26px;
-				height: 26px;
+				width: vw(26);
+				height: vw(26);
 				background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z'/%3E%3C/svg%3E") center/contain no-repeat;
 
 				@media (max-width:toEm($mobile)){
@@ -648,32 +688,35 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		}
 
 		&--spin {
-			width: 70px;
-			height: 70px;
-			border: 3px solid rgba(255, 255, 255, 0.4);
+			width: vw(70);
+			height: vw(70);
+			border: vw(3) solid rgba(255, 255, 255, 0.4);
 			flex-direction: column;
-			gap: 2px;
+			gap: vw(2);
 
 			@media (max-width:toEm($mobile)){
 				width: 58px;
 				height: 58px;
+				border-width: 3px;
+				gap: 2px;
 			}
 
 			.menu__btn-text {
-				font-size: 12px;
+				font-size: vw(12);
 				font-weight: 700;
-				letter-spacing: 1px;
+				letter-spacing: vw(1);
 
 				@media (max-width:toEm($mobile)){
 					font-size: 10px;
+					letter-spacing: 1px;
 				}
 			}
 
 			&::before {
 				content: '';
 				display: block;
-				width: 32px;
-				height: 32px;
+				width: vw(32);
+				height: vw(32);
 				background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 24 24'%3E%3Cpath d='M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z'/%3E%3C/svg%3E") center/contain no-repeat;
 
 				@media (max-width:toEm($mobile)){
@@ -707,33 +750,38 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 
 	&__balance {
 		background: transparent;
-		border: 3px solid $gold;
-		border-radius: 8px;
-		padding: 6px 20px;
+		border: vw(3) solid $gold;
+		border-radius: vw(8);
+		padding: vw(6) vw(20);
 		text-align: center;
-		width: 126px;
+		width: vw(126);
 
 		@media (max-width:toEm($mobile)){
 			padding: 4px 12px;
 			min-width: 90px;
+			width: auto;
+			border-width: 3px;
+			border-radius: 8px;
 		}
 
 		&-label {
 			display: block;
-			font-size: 12px;
+			font-size: vw(12);
 			color: #fff;
 			text-transform: uppercase;
-			letter-spacing: 1px;
-			margin-bottom: 2px;
+			letter-spacing: vw(1);
+			margin-bottom: vw(2);
 
 			@media (max-width:toEm($mobile)){
 				font-size: 9px;
+				letter-spacing: 1px;
+				margin-bottom: 2px;
 			}
 		}
 
 		&-value {
 			display: block;
-			font-size: 20px;
+			font-size: vw(20);
 			font-weight: 700;
 			color: #fff;
 
@@ -745,24 +793,24 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 
 	&__bets {
 		display: flex;
-		gap: 5px;
+		gap: vw(5);
 		background: transparent;
-		border-radius: 30px;
+		border-radius: vw(30);
 		padding: 0;
 		border: none;
 
 		@media (max-width:toEm($tablet)){
-			display: none; 
+			display: none;
 		}
 	}
 
 	&__bet-btn {
-		padding: 14px 28px;
+		padding: vw(14) vw(28);
 		background: transparent;
 		border: none;
-		border-radius: 30px;
+		border-radius: vw(30);
 		color: #fff;
-		font-size: 20px;
+		font-size: vw(20);
 		font-weight: 700;
 		cursor: pointer;
 		transition: all 0.2s ease;
@@ -770,6 +818,7 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		@media (max-width:toEm($mobile)){
 			padding: 10px 18px;
 			font-size: 16px;
+			border-radius: 30px;
 		}
 
 		@media (max-width:toEm($mobileSmall)){
@@ -783,39 +832,48 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 
 		&.active {
 			background: #8b3a3a;
-			border-radius: 30px;
+			border-radius: vw(30);
+
+			@media (max-width:toEm($mobile)){
+				border-radius: 30px;
+			}
 		}
 	}
 
 	&__bet-display {
 		background: transparent;
-		border: 3px solid $gold;
-		border-radius: 8px;
-		padding: 6px 25px;
+		border: vw(3) solid $gold;
+		border-radius: vw(8);
+		padding: vw(6) vw(25);
 		text-align: center;
-		width: 126px;
+		width: vw(126);
 
 		@media (max-width:toEm($mobile)){
 			padding: 4px 15px;
 			min-width: 70px;
+			width: auto;
+			border-width: 3px;
+			border-radius: 8px;
 		}
 
 		&-label {
 			display: block;
-			font-size: 12px;
+			font-size: vw(12);
 			color: #fff;
 			text-transform: uppercase;
-			letter-spacing: 1px;
-			margin-bottom: 2px;
+			letter-spacing: vw(1);
+			margin-bottom: vw(2);
 
 			@media (max-width:toEm($mobile)){
 				font-size: 10px;
+				letter-spacing: 1px;
+				margin-bottom: 2px;
 			}
 		}
 
 		&-value {
 			display: block;
-			font-size: 28px;
+			font-size: vw(28);
 			font-weight: 700;
 			color: $gold;
 
@@ -863,9 +921,13 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 		width: 100%;
 		height: 100%;
 		background: rgba(0, 0, 0, 0.65);
-		backdrop-filter: blur(10px);
+		backdrop-filter: blur(vw(10));
 		opacity: 0;
 		transition: opacity 0.5s ease;
+
+		@media (max-width:toEm($mobile)) {
+			backdrop-filter: blur(10px);
+		}
 	}
 
 	&__content {
@@ -881,13 +943,13 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 
 	&__inner {
 		background-color: $red;
-		border: 4px solid #ffd700;
-		border-radius: 30px;
-		padding: 50px 60px;
+		border: vw(4) solid #ffd700;
+		border-radius: vw(30);
+		padding: vw(50) vw(60);
 		text-align: center;
-		box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3),
-					0 0 40px rgba(255, 107, 157, 0.4),
-					inset 0 2px 20px rgba(255, 255, 255, 0.1);
+		box-shadow: 0 vw(20) vw(60) rgba(255, 215, 0, 0.3),
+					0 0 vw(40) rgba(255, 107, 157, 0.4),
+					inset 0 vw(2) vw(20) rgba(255, 255, 255, 0.1);
 		position: relative;
 		overflow: hidden;
 		display: flex;
@@ -903,28 +965,29 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	}
 
 	&__title {
-		font-size: 48px;
+		font-size: vw(48);
 		font-weight: 700;
 		color: #ffd700;
-		text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
-					 0 4px 8px rgba(0, 0, 0, 0.5);
-		margin-bottom: 20px;
+		text-shadow: 0 0 vw(20) rgba(255, 215, 0, 0.5),
+					 0 vw(4) vw(8) rgba(0, 0, 0, 0.5);
+		margin-bottom: vw(20);
 		text-transform: uppercase;
-		letter-spacing: 2px;
+		letter-spacing: vw(2);
 		animation: titleGlow 2s ease-in-out infinite;
 
 		@media (max-width:toEm($mobile)) {
 			font-size: 24px;
 			margin-bottom: 15px;
+			letter-spacing: 2px;
 		}
 	}
 
 	&__text {
-		font-size: 24px;
+		font-size: vw(24);
 		font-weight: 600;
 		color: #fff;
-		margin-bottom: 40px;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+		margin-bottom: vw(40);
+		text-shadow: 0 vw(2) vw(4) rgba(0, 0, 0, 0.5);
 
 		@media (max-width:toEm($mobile)) {
 			font-size: 16px;
@@ -936,13 +999,20 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 .cta-button {
 	background-color: $red;
 	color: #fff;
-	padding: 15px 25px;
-	font-size: 22px;
+	padding: vw(15) vw(25);
+	font-size: vw(22);
 	font-weight: 700;
-	border-radius: 12px;
-	border: 2px solid #fff;
+	border-radius: vw(12);
+	border: vw(2) solid #fff;
 	text-align: center;
 	animation: ctaPulse 1.5s ease-in-out infinite;
+
+	@media (max-width:toEm($mobile)) {
+		padding: 15px 25px;
+		font-size: 22px;
+		border-radius: 12px;
+		border-width: 2px;
+	}
 }
 
 @keyframes ctaPulse {
@@ -952,7 +1022,7 @@ $frameGradient: linear-gradient(145deg, #f2a527 0%, #FFB300 50%, #f39f0f 100%);;
 	}
 	50% {
 		transform: scale(1.05);
-		box-shadow: 0 0 20px 10px rgba($red, 0.3);
+		box-shadow: 0 0 vw(20) vw(10) rgba($red, 0.3);
 	}
 	100% {
 		transform: scale(1);
