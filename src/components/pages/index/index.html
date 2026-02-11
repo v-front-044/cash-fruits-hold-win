@@ -2,120 +2,238 @@
 <link rel="stylesheet" href="@components/pages/index/index.scss">
 
 <main class="page">
-	<div class="page__container">
+	<div class="container-wrap">
+		<div class="container">
+			<div class="logo">
+				<img src="@img/logo-wide.webp" alt="" />
+			</div>
 
-		<div class="game">
-			<div class="game__wrap">
-				<!-- Header with jackpots and logo -->
-				<div class="game__header">
-					<div class="jackpot jackpot--mega">
-						<span class="jackpot__label">MEGA</span>
-						<span class="jackpot__value">1000</span>
+			<div class="game" id="game" data-multipliers="1.02,2.25,3.46,5.75,12.3,18.50,24.50" data-rate="20"
+				data-crashes="1,2,3,4,5" data-spins="1">
+				<div class="game__char" id="game-char">
+					<div class="game__char-wrap">
+						<img class="game__char-default" src="@img/chicken.webp" alt="" />
+						<img class="game__char-lose" src="@img/chicken-lose.webp" alt="" />
+						<img class="game__char-feathers" src="@img/feathers.webp" alt="" />
 					</div>
-					<div class="game__logo">
-						<img src="@img/logo.webp" alt="Logo">
-					</div>
-					<div class="jackpot jackpot--mini">
-						<span class="jackpot__label">MINI</span>
-						<span class="jackpot__value">100</span>
+					<div class="game__char-multify" id="char-multiplier-element">
+						<div class="game__char-multify-value">
+							<span id="char-multiplier">1.02</span>X
+						</div>
 					</div>
 				</div>
 
-				<div class="game__field">
-					<div class="drum">
-						<div class="drum__spinner">
-							<div class="drum__column">
-								<div class="drum__image"><img src="@img/icon/icon-1.webp" alt="Icon game"></div>
-								<div class="drum__image"><img src="@img/icon/icon-2.webp" alt="Icon game"></div>
-								<div class="drum__image"><img src="@img/icon/icon-3.webp" alt="Icon game"></div>
+				<div class="game__field" id="game-field">
+					<div class="game__sector is--default is--1">
+						<div class="game__sector-multify">
+							<div class="is--default">
+								<img src="@img/default.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>1.02</span>X
+								</div>
 							</div>
-							<div class="drum__column">
-								<div class="drum__image"><img src="@img/icon/icon-5.webp" alt="Icon game"></div>
-								<div class="drum__image"><img src="@img/icon/icon-6.webp" alt="Icon game"></div>
-								<div class="drum__image"><img src="@img/icon/icon-7.webp" alt="Icon game"></div>
-							</div>
-							<div class="drum__column">
-								<div class="drum__image"><img src="@img/icon/icon-1.webp" alt="Icon game"></div>
-								<div class="drum__image"><img src="@img/icon/icon-2.webp" alt="Icon game"></div>
-								<div class="drum__image"><img src="@img/icon/icon-3.webp" alt="Icon game"></div>
-							</div>
-							<div class="drum__column">
-								<div class="drum__image"><img src="@img/icon/icon-5.webp" alt="Icon game"></div>
-								<div class="drum__image"><img src="@img/icon/icon-6.webp" alt="Icon game"></div>
-								<div class="drum__image"><img src="@img/icon/icon-7.webp" alt="Icon game"></div>
-							</div>
-							<div class="drum__column">
-								<div class="drum__image"><img src="@img/icon/icon-1.webp" alt="Icon game"></div>
-								<div class="drum__image"><img src="@img/icon/icon-2.webp" alt="Icon game"></div>
-								<div class="drum__image"><img src="@img/icon/icon-3.webp" alt="Icon game"></div>
+							<div class="is--active">
+								<img src="@img/golden.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>1.02</span>X
+								</div>
 							</div>
 						</div>
+						<img src="@img/barrier.webp" alt="" class="game__sector-barrier" />
+						<img src="@img/car-1.webp" alt="" class="game__sector-car" />
+					</div>
+
+					<div class="game__sector is--default is--2">
+						<div class="game__sector-multify">
+							<div class="is--default">
+								<img src="@img/default.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>2.25</span>X
+								</div>
+							</div>
+							<div class="is--active">
+								<img src="@img/golden.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>2.25</span>X
+								</div>
+							</div>
+						</div>
+						<img src="@img/barrier.webp" alt="" class="game__sector-barrier" />
+						<img src="@img/car-2.webp" alt="" class="game__sector-car" />
+					</div>
+
+					<div class="game__sector is--default is--3">
+						<div class="game__sector-multify">
+							<div class="is--default">
+								<img src="@img/default.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>3.46</span>X
+								</div>
+							</div>
+							<div class="is--active">
+								<img src="@img/golden.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>3.46</span>X
+								</div>
+							</div>
+						</div>
+						<img src="@img/barrier.webp" alt="" class="game__sector-barrier" />
+						<img src="@img/car-3.webp" alt="" class="game__sector-car" />
+					</div>
+
+					<div class="game__sector is--default is--4">
+						<div class="game__sector-multify">
+							<div class="is--default">
+								<img src="@img/default.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>5.75</span>X
+								</div>
+							</div>
+							<div class="is--active">
+								<img src="@img/golden.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>5.75</span>X
+								</div>
+							</div>
+						</div>
+						<img src="@img/barrier.webp" alt="" class="game__sector-barrier" />
+						<img src="@img/car-4.webp" alt="" class="game__sector-car" />
+					</div>
+
+					<div class="game__sector is--default is--5">
+						<div class="game__sector-multify">
+							<div class="is--default">
+								<img src="@img/default.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>12.3</span>X
+								</div>
+							</div>
+							<div class="is--active">
+								<img src="@img/golden.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>12.3</span>X
+								</div>
+							</div>
+						</div>
+						<img src="@img/barrier.webp" alt="" class="game__sector-barrier" />
+						<img src="@img/car-5.webp" alt="" class="game__sector-car" />
+					</div>
+
+					<div class="game__sector is--default is--6">
+						<div class="game__sector-multify">
+							<div class="is--default">
+								<img src="@img/default.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>18.50</span>X
+								</div>
+							</div>
+							<div class="is--active">
+								<img src="@img/golden.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>18.50</span>X
+								</div>
+							</div>
+						</div>
+						<img src="@img/barrier.webp" alt="" class="game__sector-barrier" />
+						<img src="@img/car-6.webp" alt="" class="game__sector-car" />
+					</div>
+
+					<div class="game__sector is--default is--7">
+						<div class="game__sector-multify">
+							<div class="is--default">
+								<img src="@img/default.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>24.50</span>X
+								</div>
+							</div>
+							<div class="is--active">
+								<img src="@img/golden.webp" alt="" />
+								<div class="game__sector-multify-value">
+									<span>24.50</span>X
+								</div>
+							</div>
+						</div>
+						<img src="@img/barrier.webp" alt="" class="game__sector-barrier" />
+						<img src="@img/car-7.webp" alt="" class="game__sector-car" />
 					</div>
 				</div>
 			</div>
 
-			<div class="menu">
-				<!-- Top row -->
-				<div class="menu__top">
-					<div class="menu__balance">
-						<span class="menu__balance-label">FREEPLAY</span>
-						<span class="menu__balance-value menu__info"><span class="number">10000</span></span>
+			<div class="game-controls__wrapper">
+				<div class="game-controls" id="game-controls">
+					<div class="game-controls__block is--first">
+						<div class="game-controls__rate">
+							<div class="game-controls__rate-btn">MIN</div>
+							<span class="game-controls__rate-value" id="rate">20</span>
+							<div class="game-controls__rate-btn">MAX</div>
+						</div>
+
+						<div class="game-controls__defaults">
+							<div class="game-controls__defaults-item">
+								<span class="game-controls__defaults-item-value">1</span>
+								<span class="game-controls__defaults-item-currency"></span>
+							</div>
+							<div class="game-controls__defaults-item">
+								<span class="game-controls__defaults-item-value">2</span>
+								<span class="game-controls__defaults-item-currency"></span>
+							</div>
+							<div class="game-controls__defaults-item">
+								<span class="game-controls__defaults-item-value">5</span>
+								<span class="game-controls__defaults-item-currency"></span>
+							</div>
+							<div class="game-controls__defaults-item">
+								<span class="game-controls__defaults-item-value">10</span>
+								<span class="game-controls__defaults-item-currency"></span>
+							</div>
+						</div>
 					</div>
-					<div class="menu__status">FREEPLAY</div>
-					<div class="menu__bet-display menu__credit">
-						<span class="menu__bet-label">BET</span>
-						<span class="menu__bet-value"><span class="number">1</span></span>
+					<div class="game-controls__block">
+						<div class="game-controls__headings">
+							<span class="game-controls__headings-dif">Difficulty</span>
+							<span class="game-controls__headings-chance">Chance of being shot down</span>
+						</div>
+
+						<div class="game-controls__switcher">
+							<span class="game-controls__switcher-item is--active">Easy</span>
+							<span class="game-controls__switcher-item">Medium</span>
+							<span class="game-controls__switcher-item">Hard</span>
+							<span class="game-controls__switcher-item">Hardcore</span>
+						</div>
 					</div>
-				</div>
-				<!-- Bottom row -->
-				<div class="menu__bottom">
-					<div class="menu__box">
-						<a href="#" class="menu__btn menu__btn--sound menu__sound">
-							<span class="menu__btn-icon"></span>
-						</a>
-						<button type="button" class="menu__btn menu__btn--info">
-							<span class="menu__btn-icon">i</span>
+					<div class="game-controls__block is--last">
+						<button class="game-controls__cash-btn" type="button" id="cash-btn">
+							<div class="game-controls__cash-btn-inner">
+								<span>CASH OUT</span>
+								<br />
+								<span id="balance">20</span>
+							</div>
 						</button>
-					</div>
-
-					<div class="menu__wrap">
-						<a href="#" class="menu__btn menu__btn--arrow menu__button-arrow increase">
-							<span class="menu__btn-icon">&#9664;</span>
-						</a>
-						<div class="menu__bets">
-							<button type="button" class="menu__bet-btn active">1</button>
-							<button type="button" class="menu__bet-btn">5</button>
-							<button type="button" class="menu__bet-btn">10</button>
-							<button type="button" class="menu__bet-btn">20</button>
-							<button type="button" class="menu__bet-btn">30</button>
+						<div class="game-controls__go-btn">
+							<button class="bottom__section-button pulse" id="go-btn" data-spins="1">
+								<span class="bottom__section-button-default" id="go-btn-default-text">
+									RUN</span>
+								<span class="bottom__section-button-next" id="go-btn-next-text">
+								</span>
+							</button>
 						</div>
-						<a href="#" class="menu__btn menu__btn--arrow menu__button-arrow bottom reduce">
-							<span class="menu__btn-icon">&#9654;</span>
-						</a>
-					</div>
-
-					<div class="menu__box">
-						<a href="#" class="menu__btn menu__btn--auto menu__button-auto">
-							<span class="menu__btn-icon"></span>
-						</a>
-						<a href="#" class="menu__btn menu__btn--spin menu__button-spin">
-							<span class="menu__btn-text">START</span>
-						</a>
-					</div>
-				</div>
-			</div>
-
-			<div class="popup">
-				<div class="popup__overlay"></div>
-				<div class="popup__content">
-					<div class="popup__inner">
-						<h2 class="popup__title">Congratulations!</h2>
-						<p class="popup__text">Ready to continue playing?</p>
-						<a class="cta-button" href="#">Download Now</a>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
+	<div class="effects hidden" id="effects">
+		<img loading="lazy" class="effects__image hidden" id="effects-image" src="" alt="" />
+	</div>
+
+	<div class="popup" id="popup">
+		<div class="popup__overlay"></div>
+		<div class="popup__content">
+			<div class="popup__inner">
+				<h2 class="popup__title">YOU WON!</h2>
+				<p class="popup__text">Claim your prize now</p>
+				<a class="cta-button" id="win-cta" href="#">Claim your prize</a>
+			</div>
+		</div>
 	</div>
 </main>
