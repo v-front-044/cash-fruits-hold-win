@@ -1028,7 +1028,7 @@ img {
 		z-index: 100;
 		
 		@media (max-width:toEm($mobile)){
-			max-width: 280px;
+			max-width: 56rem;
 			width: 100%;
 		}
 	}
@@ -1047,6 +1047,8 @@ img {
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		white-space: nowrap;
+		gap: 20px;
 
 		@media (max-width: 768px) {
 			padding: 40px 30px;
@@ -1056,7 +1058,7 @@ img {
 	}
 
 	&__title {
-		font-size: 48px;
+		font-size: 9rem;
 		font-weight: 700;
 		color: #fff;
 		text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
@@ -1066,20 +1068,18 @@ img {
 		letter-spacing: 2px;
 
 		@media (max-width: 768px) {
-			font-size: 28px;
 			margin-bottom: 15px;
 		}
 	}
 
 	&__text {
-		font-size: 24px;
+		font-size: 4rem;
 		font-weight: 600;
 		color: #fffd2f;
 		margin-bottom: 40px;
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 
 		@media (max-width: 768px) {
-			font-size: 16px;
 			margin-bottom: 30px;
 		}
 	}
@@ -1090,7 +1090,7 @@ img {
 	background-color: #3ec55b;
 	color: #fff;
 	padding: 15px 40px;
-	font-size: 22px;
+	font-size: 5rem;
 	font-weight: 700;
 	border-radius: 12px;
 	border: 2px solid #fff;
@@ -1100,7 +1100,6 @@ img {
 
 	@media (max-width: 768px) {
 		padding: 15px 25px;
-		font-size: 18px;
 	}
 }
 
